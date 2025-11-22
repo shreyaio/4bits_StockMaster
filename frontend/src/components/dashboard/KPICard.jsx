@@ -1,26 +1,20 @@
-// src/api/dashboardApi.js
-import axiosInstance from "./axiosInstance";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardApi } from "../../api/dashboardApi";
 
-export const dashboardApi = {
-  getKpis: async (filters = {}) => {
-    const res = await axiosInstance.get("/dashboard/kpis", {
-      params: filters,
-    });
-    return res.data; // { totalProductsInStock, lowStockCount, pendingReceipts, pendingDeliveries, internalTransfersScheduled }
-  },
+const KPICard = ({ title = "KPI", fetchKey = ["kpis"], renderValue }) => {
+  const { data, isLoading } = useQuery({ queryKey: fetchKey, queryFn: () => dashboardApi.getKpis() });
 
-  getOperationsSummary: async (filters = {}) => {
-    const res = await axiosInstance.get("/dashboard/operations-summary", {
-      params: filters,
-    });
-    return res.data;
-    /*
-      Expected shape:
-      {
-        receipts: { total, toProcess, waiting, ready, late },
-        deliveries: { total, toProcess, waiting, ready, late },
-        transfers: { total, scheduled }
-      }
-    */
-  },
+  if (isLoading) return <div className="card">Loading...</div>;
+
+  const kpis = data || {};
+
+  return (
+    <div className="stat-card">
+      <div className="text-sm text-[var(--muted)]">{title}</div>
+      <div className="text-2xl font-bold mt-2">{renderValue ? renderValue(kpis) : JSON.stringify(kpis)}</div>
+    </div>
+  );
 };
+
+export default KPICard;
