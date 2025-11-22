@@ -60,49 +60,33 @@ const Login = () => {
     setLoading(true);
     setAlert({ show: false, type: '', message: '' });
 
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Store token in localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        
-        setAlert({
-          show: true,
-          type: 'success',
-          message: 'Login successful! Redirecting...'
-        });
-
-        // Redirect to dashboard after 1 second
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1000);
-      } else {
-        setAlert({
-          show: true,
-          type: 'danger',
-          message: data.message || 'Login failed. Please try again.'
-        });
-      }
-    } catch (error) {
+    // Mock authentication - replace with real API later
+    setTimeout(() => {
+      // Simulate successful login
+      const mockUser = {
+        id: '1',
+        name: 'Parthiv Patel',
+        email: formData.loginId,
+        role: 'admin'
+      };
+      
+      // Store token in localStorage
+      localStorage.setItem('auth_token', 'mock_token_12345');
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      
       setAlert({
         show: true,
-        type: 'danger',
-        message: 'Network error. Please check your connection.'
+        type: 'success',
+        message: 'Login successful! Redirecting to dashboard...'
       });
-    } finally {
+
+      // Redirect to dashboard after 1 second
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
+      
       setLoading(false);
-    }
+    }, 800);
   };
 
   return (

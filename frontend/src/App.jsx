@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+import Home from './routes/Home.jsx'
 import Login from './routes/Auth/Login.jsx'
 import Signup from './routes/Auth/Signup.jsx'
 import ForgotPassword from './routes/Auth/ForgotPassword.jsx'
 import ResetPassword from './routes/Auth/ResetPassword.jsx'
 import Dashboard from './routes/Dashboard.jsx'
+import ReceiptsList from './routes/Operations/ReceiptsList.jsx'
+import ReceiptForm from './routes/Operations/ReceiptForm.jsx'
 import './App.css'
 
 function LandingPageContent() {
@@ -798,12 +801,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPageContent />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/landing" element={<LandingPageContent />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/operations/receipts" element={<ReceiptsList />} />
+        <Route path="/operations/receipts/:id" element={<ReceiptForm />} />
       </Routes>
     </BrowserRouter>
   )

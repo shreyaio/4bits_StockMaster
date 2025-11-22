@@ -5,16 +5,16 @@ const ReceiptsList = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div className="p-6 w-full">
-			<div className="flex-between mb-6">
-				<h1 className="text-[24px] font-semibold text-[var(--text)]">Receipts</h1>
+		<div className="page-container">
+			<div className="flex-between" style={{ marginBottom: '24px' }}>
+				<h1 style={{ fontSize: '24px', fontWeight: '600', color: 'var(--text)' }}>Receipts</h1>
 				<div>
-					<button className="btn btn-primary" onClick={() => navigate('/operations/receipt/new')}>NEW</button>
+					<button className="btn btn-primary" onClick={() => navigate('/operations/receipts/new')}>NEW</button>
 				</div>
 			</div>
 
-			<div className="rounded-xl shadow-md bg-[var(--surface)] overflow-hidden p-6 text-center text-[var(--muted)]">
-				Receipts listing is not yet wired to the API. Visit individual receipts to create or edit.
+			<div className="card" style={{ textAlign: 'center', color: 'var(--muted)' }}>
+				<p>Receipts listing is not yet wired to the API. Visit individual receipts to create or edit.</p>
 			</div>
 		</div>
 	);
