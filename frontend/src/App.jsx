@@ -1,9 +1,9 @@
 import './App.css'
-import WarehouseDetails from './routes/Settings/Warehouses'
+import LocationsPage from './routes/Settings/Locations'
 
 function App() {
   return (
-    <WarehouseDetails />
+    <LocationsPage />
   )
 }
 

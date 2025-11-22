@@ -64,14 +64,14 @@ export default function WarehouseDetails() {
           --primary: #2B86FF;
           --primary-600: #1f6fe6;
           --accent: #F6C84C;
+          --muted: #9AA8B2;
           --text: #0E2433;
-          --muted: #8FA0AC;
-          --success: #2FB76B;
           --danger: #E04545;
+          --success: #2FB76B;
           --warning: #E8B500;
           --gray: #C3CBD2;
           --radius: 10px;
-          --shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+          --shadow: 0 4px 12px rgba(8,34,49,0.05);
         }
 
         .page-container {
