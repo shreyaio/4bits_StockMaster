@@ -1,1 +1,195 @@
 @import "./theme.css";
+/* =======================
+   Global Reset & Base
+   ======================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, select, textarea {
+  outline: none;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =======================
+   Design Tokens / Theme
+   ======================= */
+:root {
+  --bg: #ffffff;
+  --surface: #F5F8FB;  
+  --primary: #2B86FF;
+  --primary-600: #1f6fe6;
+  --accent: #F6C84C;
+  --text: #0E2433;
+  --muted: #8FA0AC;
+
+  --success: #2FB76B;
+  --danger: #E04545;
+  --warning: #E8B500;
+  --gray: #C3CBD2;
+
+  --radius: 10px;
+  --shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+/* =======================
+   Page Layout
+   ======================= */
+.page-container {
+  padding: 24px;
+  width: 100%;
+}
+
+/* =======================
+   Card Styling
+   ======================= */
+.card {
+  background: var(--surface);
+  padding: 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* =======================
+   Buttons
+   ======================= */
+.btn {
+  padding: 8px 18px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--primary-600);
+}
+
+.btn-surface {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+/* =======================
+   Table style
+   ======================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+td {
+  padding: 14px;
+  color: var(--text);
+  border-bottom: 1px solid #edf0f3;
+}
+
+tr:hover {
+  background: rgba(43, 134, 255, 0.06);
+  transition: 0.15s ease-in-out;
+}
+
+/* =======================
+   Status Pills
+   ======================= */
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.status-draft { background: var(--gray); color: var(--text); }
+.status-waiting { background: var(--warning); color: #000; }
+.status-ready { background: var(--primary); color: white; }
+.status-done { background: var(--success); color: white; }
+.status-cancelled { background: var(--muted); color: white; }
+
+/* =======================
+   Scrollbar (Polish UI)
+   ======================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-600);
+}
+
+/* =======================
+   Form Inputs
+   ======================= */
+input, select {
+  padding: 10px;
+  border-radius: var(--radius);
+  border: 1px solid #d6d9de;
+  background: white;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(43, 134, 255, 0.18);
+}
+
+/* =======================
+   Utility Classes
+   ======================= */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-muted { color: var(--muted); }
+.text-danger { color: var(--danger); }
+.text-success { color: var(--success); }
+.text-primary { color: var(--primary); }
