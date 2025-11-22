@@ -1,17 +1,16 @@
 // ============================================
-// STOCKMASTER - Signup Page
-// Location: frontend/src/routes/Auth/Signup.jsx
+// STOCKMASTER - Reset Password Page
+// Location: frontend/src/routes/Auth/ResetPassword.jsx
 // ============================================
 
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import './Auth.css';
 
-const Signup = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
+  const { resetToken } = useParams();
   const [formData, setFormData] = useState({
-    loginId: '',
-    email: '',
     password: '',
     confirmPassword: ''
   });
@@ -38,22 +37,6 @@ const Signup = () => {
   // Validate form
   const validateForm = () => {
     const newErrors = {};
-
-    // Login ID validation
-    if (!formData.loginId.trim()) {
-      newErrors.loginId = 'Login ID is required';
-    } else if (formData.loginId.length < 6 || formData.loginId.length > 12) {
-      newErrors.loginId = 'Login ID must be between 6-12 characters';
-    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.loginId)) {
-      newErrors.loginId = 'Login ID can only contain letters, numbers, and underscores';
-    }
-
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
 
     // Password validation
     if (!formData.password) {
@@ -104,13 +87,16 @@ const Signup = () => {
     setAlert({ show: false, type: '', message: '' });
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
+      const response = await fetch(`http://localhost:5000/api/auth/reset-password/${resetToken}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          password: formData.password,
+          confirmPassword: formData.confirmPassword
+        })
       });
 
       const data = await response.json();
@@ -123,18 +109,18 @@ const Signup = () => {
         setAlert({
           show: true,
           type: 'success',
-          message: 'Account created successfully! Redirecting...'
+          message: 'Password reset successful! Redirecting to dashboard...'
         });
 
-        // Redirect to dashboard after 1.5 seconds
+        // Redirect to dashboard after 2 seconds
         setTimeout(() => {
           navigate('/dashboard');
-        }, 1500);
+        }, 2000);
       } else {
         setAlert({
           show: true,
           type: 'danger',
-          message: data.message || 'Signup failed. Please try again.'
+          message: data.message || 'Password reset failed. The link may have expired.'
         });
       }
     } catch (error) {
@@ -159,8 +145,8 @@ const Signup = () => {
 
         {/* Page Title */}
         <div className="auth-header">
-          <h2>Create Your Account</h2>
-          <p>Fill in the details below to get started</p>
+          <h2>Reset Your Password</h2>
+          <p>Enter your new password below</p>
         </div>
 
         {/* Alert Message */}
@@ -170,52 +156,12 @@ const Signup = () => {
           </div>
         )}
 
-        {/* Signup Form */}
+        {/* Reset Password Form */}
         <form onSubmit={handleSubmit} className="auth-form">
-          {/* Login ID */}
-          <div className="input-group">
-            <label htmlFor="loginId" className="input-label">
-              Login ID
-            </label>
-            <input
-              type="text"
-              id="loginId"
-              name="loginId"
-              value={formData.loginId}
-              onChange={handleChange}
-              className={`input-field ${errors.loginId ? 'input-error' : ''}`}
-              placeholder="Choose a login ID (6-12 characters)"
-              autoComplete="username"
-            />
-            {errors.loginId && (
-              <span className="error-message">{errors.loginId}</span>
-            )}
-          </div>
-
-          {/* Email */}
-          <div className="input-group">
-            <label htmlFor="email" className="input-label">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`input-field ${errors.email ? 'input-error' : ''}`}
-              placeholder="Enter your email address"
-              autoComplete="email"
-            />
-            {errors.email && (
-              <span className="error-message">{errors.email}</span>
-            )}
-          </div>
-
-          {/* Password */}
+          {/* New Password */}
           <div className="input-group">
             <label htmlFor="password" className="input-label">
-              Password
+              New Password
             </label>
             <input
               type="password"
@@ -224,7 +170,7 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               className={`input-field ${errors.password ? 'input-error' : ''}`}
-              placeholder="Create a strong password"
+              placeholder="Enter your new password"
               autoComplete="new-password"
             />
             {errors.password && (
@@ -232,10 +178,10 @@ const Signup = () => {
             )}
           </div>
 
-          {/* Confirm Password */}
+          {/* Confirm New Password */}
           <div className="input-group">
             <label htmlFor="confirmPassword" className="input-label">
-              Re-Enter Password
+              Confirm New Password
             </label>
             <input
               type="password"
@@ -244,7 +190,7 @@ const Signup = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               className={`input-field ${errors.confirmPassword ? 'input-error' : ''}`}
-              placeholder="Confirm your password"
+              placeholder="Re-enter your new password"
               autoComplete="new-password"
             />
             {errors.confirmPassword && (
@@ -256,7 +202,7 @@ const Signup = () => {
           <div className="password-requirements">
             <p className="requirements-title">Password must contain:</p>
             <ul className="requirements-list">
-              <li className={formData.password.length >= 6 ? 'valid' : ''}>
+              <li className={formData.password.length >= 6 && formData.password.length <= 12 ? 'valid' : ''}>
                 6-12 characters
               </li>
               <li className={/[A-Z]/.test(formData.password) ? 'valid' : ''}>
@@ -283,19 +229,18 @@ const Signup = () => {
             {loading ? (
               <span className="btn-loading">
                 <span className="spinner-small"></span>
-                Creating Account...
+                Resetting Password...
               </span>
             ) : (
-              'SIGN UP'
+              'RESET PASSWORD'
             )}
           </button>
         </form>
 
         {/* Footer Links */}
         <div className="auth-footer">
-          <span>Already have an account?</span>
-          <Link to="/login" className="auth-link auth-link-primary">
-            Sign In
+          <Link to="/login" className="auth-link">
+            ← Back to Login
           </Link>
         </div>
       </div>
@@ -308,4 +253,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ResetPassword;
