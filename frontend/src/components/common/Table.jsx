@@ -1,25 +1,84 @@
-import React from "react";
+import React from 'react';
 
-export default function Table({ columns = [], data = [], renderRow }) {
-	return (
-		<div className="rounded-xl shadow-md bg-[var(--surface)] overflow-hidden">
-			<table className="w-full text-left">
-				<thead className="text-sm text-[var(--muted)] border-b">
-					<tr>
-						{columns.map((c) => (
-							<th key={c.key || c.label} className="p-4">{c.label}</th>
-						))}
-					</tr>
-				</thead>
-
-				<tbody>
-					{data.map((row, idx) => (
-						<tr key={row.id || idx} className="hover:bg-[rgba(43,134,255,0.06)] transition">
-							{renderRow ? renderRow(row) : columns.map((c) => <td key={c.key} className="p-4">{row[c.key]}</td>)}
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
-	);
+const styles = `
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-row {
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.table-row:hover {
+  background-color: var(--color-surface);
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-cell {
+  padding: 1rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+`;
+
+const Table = ({ columns = [], data = [], onRowClick }) => {
+  return (
+    <>
+      <style>{styles}</style>
+      <div className="table-container">
+        <table className="table">
+          <thead>
+            <tr>
+              {columns.map((column, index) => (
+                <th key={index} className="table-header">
+                  {column.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className="table-row"
+                onClick={() => onRowClick && onRowClick(row)}
+              >
+                {columns.map((column, colIndex) => (
+                  <td key={colIndex} className="table-cell">
+                    {column.render ? column.render(row) : row[column.accessor]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+
+export default Table;

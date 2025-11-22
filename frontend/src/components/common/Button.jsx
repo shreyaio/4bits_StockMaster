@@ -1,9 +1,103 @@
-import React from "react";
+import React from 'react';
 
-export default function Button({ children, className = "", ...props }) {
-	return (
-		<button className={`btn ${className}`} {...props}>
-			{children}
-		</button>
-	);
+const styles = `
+.btn {
+  font-family: var(--font-family);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Variants */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-surface);
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.btn-accent:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+/* Sizes */
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: var(--font-size-sm);
+}
+
+.btn-md {
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-base);
+}
+`;
+
+const Button = ({ 
+  children, 
+  variant = 'primary', 
+  size = 'md', 
+  onClick, 
+  disabled = false,
+  type = 'button',
+  className = '',
+  ...props 
+}) => {
+  return (
+    <>
+      <style>{styles}</style>
+      <button
+        type={type}
+        className={`btn btn-${variant} btn-${size} ${className}`}
+        onClick={onClick}
+        disabled={disabled}
+        {...props}
+      >
+        {children}
+      </button>
+    </>
+  );
+};
+
+export default Button;

@@ -1,18 +1,38 @@
-import React from "react";
-import Modal from "./Modal";
+import React from 'react';
+import Modal from './Modal';
+import Button from './Button';
 
-export default function ConfirmDialog({ open, title, message, onConfirm, onClose }) {
-	return (
-		<Modal open={open} onClose={onClose}>
-			<div>
-				<h3 className="text-lg font-semibold mb-2">{title}</h3>
-				<p className="text-sm text-[var(--muted)] mb-4">{message}</p>
-				<div className="flex gap-2 justify-end">
-					<button className="btn btn-surface" onClick={onClose}>Cancel</button>
-					<button className="btn btn-danger" onClick={onConfirm}>Confirm</button>
-				</div>
-			</div>
-		</Modal>
-	);
-}
+const ConfirmDialog = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title = 'Confirm Action',
+  message,
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
+  variant = 'primary'
+}) => {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={title}
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
+            {cancelText}
+          </Button>
+          <Button variant={variant} onClick={onConfirm}>
+            {confirmText}
+          </Button>
+        </>
+      }
+    >
+      <p style={{ color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
+        {message}
+      </p>
+    </Modal>
+  );
+};
 
+export default ConfirmDialog;
